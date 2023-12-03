@@ -4440,8 +4440,8 @@
                                     <!-- Canvas element for the Response Latency Graph -->
                                     <canvas id="responseLatencyGraph"></canvas>
                                     <canvas id="forwarderResponseLatencyGraph"></canvas>
-                                    <table id="topServFailDomainsTable"></table>
-                                    <table id="topCacheServedDomainsTable"> </table>
+                                    <table id="topServFailDomainsTable" class="table-stats"></table>
+                                    <table id="topCacheServedDomainsTable" class="table-stats"> </table>
                                     <!-- Additional elements for other graphs and tables -->
                                 </div>
 
@@ -7743,32 +7743,35 @@ MII...
         });
 
         function populateTopServFailDomainsTable() {
-            const dummyServFailData = [
-                { domain: 'examplefail1.com', failures: 5 },
-                { domain: 'examplefail2.com', failures: 3 },
-                // ... more dummy data
-            ];
+    const dummyServFailData = [
+        { domain: 'network-issue.org', failures: 5 },
+        { domain: 'service-timeout.net', failures: 3 },
+        { domain: 'dns-resolve-error.com', failures: 4 },
+        // ... more dummy data
+    ];
 
-            let html = '<tr><th>Domain</th><th>Failures</th></tr>';
-            dummyServFailData.forEach(item => {
-                html += `<tr><td>${item.domain}</td><td>${item.failures}</td></tr>`;
-            });
-            document.getElementById('topServFailDomainsTable').innerHTML = html;
-        }
+    let html = '<tr><th>Domain</th><th>Failures</th></tr>';
+    dummyServFailData.forEach(item => {
+        html += `<tr><td>${item.domain}</td><td>${item.failures}</td></tr>`;
+    });
+    document.getElementById('topServFailDomainsTable').innerHTML = html;
+}
 
-        function populateTopCacheServedDomainsTable() {
-            const dummyCacheData = [
-                { domain: 'examplecache1.com', hits: 20 },
-                { domain: 'examplecache2.com', hits: 15 },
-                // ... more dummy data
-            ];
+function populateTopCacheServedDomainsTable() {
+    const dummyCacheData = [
+        { domain: 'youtube.com', hits: 20 },
+        { domain: 'iit.edu', hits: 15 },
+        { domain: 'github.com', hits: 30 },
+        // ... more dummy data
+    ];
 
-            let html = '<tr><th>Domain</th><th>Hits</th></tr>';
-            dummyCacheData.forEach(item => {
-                html += `<tr><td>${item.domain}</td><td>${item.hits}</td></tr>`;
-            });
-            document.getElementById('topCacheServedDomainsTable').innerHTML = html;
-        }
+    let html = '<tr><th>Domain</th><th>Hits</th></tr>';
+    dummyCacheData.forEach(item => {
+        html += `<tr><td>${item.domain}</td><td>${item.hits}</td></tr>`;
+    });
+    document.getElementById('topCacheServedDomainsTable').innerHTML = html;
+}
+
         function renderForwarderResponseLatencyGraph() {
             const ctx = document.getElementById('forwarderResponseLatencyGraph').getContext('2d');
             const forwarderResponseLatencyGraph = new Chart(ctx, {
