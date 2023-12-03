@@ -112,9 +112,7 @@
                                 <li id="mainPanelTabListAdmin" role="presentation"><a href="#mainPanelTabPaneAdmin" aria-controls="mainPanelTabPaneAdmin" role="tab" data-toggle="tab" onclick="refreshAdminTab();">Administration</a></li>
                                 <li id="mainPanelTabListLogs" role="presentation"><a href="#mainPanelTabPaneLogs" aria-controls="mainPanelTabPaneLogs" role="tab" data-toggle="tab" onclick="refreshLogsTab();">Logs</a></li>
                                 <li id="mainPanelTabListAbout" role="presentation"><a href="#mainPanelTabPaneAbout" aria-controls="mainPanelTabPaneAbout" role="tab" data-toggle="tab">About</a></li>
-                                <li role="presentation"><a href="#top-servfail" aria-controls="top-servfail" role="tab" data-toggle="tab">Top ServFail Domains</a></li>
-                                <li role="presentation"><a href="#top-cache" aria-controls="top-cache" role="tab" data-toggle="tab">Top Cache Served Domains</a></li>
-
+                                <li id="mainPanelTabListStats" role="presentation"><a href="#mainPanelTabPaneStats" aria-controls="mainPanelTabPaneStats" role="tab" data-toggle="tab">Stats</a></li>
                             </ul>
 
                             <div class="tab-content">
@@ -140,12 +138,6 @@
                                                 <label class="btn btn-default">
                                                     <input type="radio" name="rdStatType" value="custom" autocomplete="off"> Custom
                                                 </label>
-                                                <div role="tabpanel" class="tab-pane" id="top-servfail">
-                                                    <!-- Content for Top ServFail Domains will go here -->
-                                                </div>
-                                                <div role="tabpanel" class="tab-pane" id="top-cache">
-                                                    <!-- Content for Top Cache Served Domains will go here -->
-                                                </div>
                                             </div>
                                         </div>
 
@@ -2855,6 +2847,11 @@
                                     </div>
 
                                 </div>
+                                <div id="mainPanelTabPaneStats" role="tabpanel" class="tab-pane">
+                                    <!-- Canvas element for the Response Latency Graph -->
+                                    <canvas id="responseLatencyGraph"></canvas>
+                                    <!-- Additional elements for other graphs and tables -->
+                                  </div>
 
                                 <div id="mainPanelTabPaneAbout" role="tabpanel" class="tab-pane" style="padding: 40px 0 20px 0;">
 
@@ -5603,34 +5600,45 @@ MII...
 
     <div id="footer"></div>
     <script>
-        // Your JavaScript functions here
         document.addEventListener('DOMContentLoaded', function () {
-            renderServFailData();
-            renderCacheData();
+          // ... other functions and existing code ...
+        
+          // Call the function to render the Response Latency Graph
+          renderResponseLatencyGraph();
         });
-        function renderServFailData() {
-            let html = '<table><tr><th>Domain</th><th>Failures</th></tr>';
-            dummyServFailData.forEach(item => {
-                html += `<tr><td>${item.domain}</td><td>${item.failures}</td></tr>`;
-            });
-            html += '</table>';
-            document.getElementById('top-servfail').innerHTML = html;
+        
+        function renderResponseLatencyGraph() {
+  const ctx = document.getElementById('responseLatencyGraph').getContext('2d');
+  const responseLatencyGraph = new Chart(ctx, {
+    type: 'line', // or 'bar', depending on your preference
+    data: {
+      labels: ['TCP', 'UDP'], // X-axis labels
+      datasets: [{
+        label: 'Response Latency',
+        data: [120, 80], // Replace with actual data
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
         }
+      }
+    }
+  });
+}
+        
+        // ... other JavaScript functions ...
+        </script>
 
-        function renderCacheData() {
-            // Similar to renderServFailData, but for cache data
-        }
-        let dummyServFailData = [
-            { domain: 'example1.com', failures: 10 },
-            { domain: 'example2.com', failures: 7 },
-            // ... more data
-        ];
-
-        let dummyCacheData = [
-            { domain: 'cached1.com', hits: 15 },
-            { domain: 'cached2.com', hits: 12 },
-            // ... more data
-        ];
-    </script>
 </body>
 </html>
